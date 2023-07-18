@@ -2,13 +2,23 @@
   "name": "withoutcra",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "babel.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --mode=development --open --hot --progress",
+    "build": "webpack --progress"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FiveBirdSilver/withoutCRA.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FiveBirdSilver/withoutCRA/issues"
+  },
+  "homepage": "https://github.com/FiveBirdSilver/withoutCRA#readme",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
@@ -21,11 +31,13 @@
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "babel-loader": "^9.1.3",
+    "clean-webpack-plugin": "^4.0.0",
     "html-webpack-plugin": "^5.5.3",
     "ts-loader": "^9.4.4",
     "typescript": "^5.1.6",
-    "webpack": "^5.88.1",
+    "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
+    "webpack-dev-server": "^4.15.1",
+    "webpack-merge": "^5.9.0"
   }
 }

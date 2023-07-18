@@ -1,20 +1,25 @@
 {
   "compilerOptions": {
-    "sourceMap": true,
     "target": "es5",
-    "lib": ["dom", "ES2015", "ES2016", "ES2017", "ES2018", "ES2019", "ES2020"],
+    "module": "esnext",
+    // 자바스크립트 파일 간 import 문법을 구현할 때 어떤 문법을 쓸 지 정함 ( commonjs => require / es2015, esnext => import)
+    // "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
-    "module": "commonjs",
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": "./",
+    "checkJs": true,
+    "jsx": "react-jsx",
+    "sourceMap": true,
     "outDir": "./dist",
-    "moduleResolution": "node"
+    "isolatedModules": false,
+    "strict": true,
+    "moduleResolution": "node",
+    // "baseUrl": "./",
+    // "paths": {
+    //   "@components/*": ["components/*"],
+    //   "@pages/*": ["pages/*"]
+    // },
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["node_modules"],
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": ["src"]
 }
