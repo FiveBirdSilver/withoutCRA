@@ -5,8 +5,10 @@
   "main": "babel.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --mode=development --open --hot --progress",
-    "build": "webpack --progress"
+    "dev": "webpack-dev-server --config webpack.dev.js --open --hot",
+    "build": "webpack --config webpack.prod.js",
+    "start": "webpack --config webpack.dev.js",
+    "server": "json-server --watch db.json --port 8080"
   },
   "repository": {
     "type": "git",
@@ -20,6 +22,7 @@
   },
   "homepage": "https://github.com/FiveBirdSilver/withoutCRA#readme",
   "dependencies": {
+    "axios": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

@@ -1,9 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "module": "esnext",
-    // 자바스크립트 파일 간 import 문법을 구현할 때 어떤 문법을 쓸 지 정함 ( commonjs => require / es2015, esnext => import)
-    // "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "checkJs": true,
     "jsx": "react-jsx",
@@ -12,14 +10,10 @@
     "isolatedModules": false,
     "strict": true,
     "moduleResolution": "node",
-    // "baseUrl": "./",
-    // "paths": {
-    //   "@components/*": ["components/*"],
-    //   "@pages/*": ["pages/*"]
-    // },
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }
