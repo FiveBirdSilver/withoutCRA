@@ -1,18 +1,28 @@
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { getData, setData } from "./apis";
 
 function App() {
+  const [title, setTitle] = useState("");
+  const [email, setEmail] = useState("");
+  const [gender, setGender] = useState("");
+
   const getPosts = async () => {
-    const res = await getData();
-    console.log(res);
+    await getData();
+  };
+
+  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = event.target;
+    if (id === "title") setTitle(value);
+    else setEmail(value);
   };
 
   const handleOnCreate = async () => {
-    const res = await setData({
-      title: "hohomin",
-      email: "hohomin@gmail.com",
+    const sendData = {
+      title: title,
+      email: email,
       gender: "male",
-    });
+    };
+    await setData(sendData);
   };
 
   useEffect(() => {
@@ -21,6 +31,8 @@ function App() {
 
   return (
     <div>
+      <input id="title" value={title} onChange={handleOnChange} placeholder="이름" />
+      <input id="email" value={email} onChange={handleOnChange} placeholder="이메일" />
       <button onClick={handleOnCreate}>리스트 추가</button>
     </div>
   );
