@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from "react-query";
+import { useInView } from "react-intersection-observer";
 
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-import { editData, getData, setData } from "./apis";
+import { editData, getData, getInfinitData, setData } from "./apis";
 
 function App() {
   const queryClient = useQueryClient();
+  const { ref, inView } = useInView();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -21,11 +23,20 @@ function App() {
     gender: gender,
   };
 
-  const infos = useQuery(["info"], getData, {
-    // refetchInterval: 5000,
-    refetchOnWindowFocus: true,
-    refetchIntervalInBackground: true,
+  // const infos = useQuery(["info"], getData, {
+  //   refetchOnWindowFocus: true,
+  //   refetchIntervalInBackground: true,
+  // });
+
+  const { data, fetchNextPage } = useInfiniteQuery(["info"], ({ pageParam = 0 }) => getInfinitData(pageParam), {
+    getNextPageParam: (lastPage) => {
+      return lastPage.page + 1;
+    },
   });
+
+  useEffect(() => {
+    if (inView) fetchNextPage();
+  }, [inView]);
 
   // 정보 추가
   const addInfo = useMutation(setData, {
@@ -105,7 +116,7 @@ function App() {
         </Button>
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
-        {infos?.data?.map((v: any) => (
+        {data?.pages[0].map((v: any) => (
           <div style={{ display: "flex", gap: "20px", alignContent: "center", justifyContent: "center" }} key={v.id}>
             <p>No. {v.id}</p>
             <p>이름 : {v.name}</p>
@@ -114,6 +125,7 @@ function App() {
           </div>
         ))}
       </div>
+      <div ref={ref} />
     </div>
   );
 }

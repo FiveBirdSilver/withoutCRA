@@ -12,6 +12,12 @@ const getData = async () => {
   if (result.status === 200) return result.data;
 };
 
+// 리스트 무한 스크롤
+const getInfinitData = async (num: number) => {
+  const result = await axios(`http://localhost:8080/data?_page=${num}&_limit=20`);
+  if (result.status === 200) return result.data;
+};
+
 // 리스트 추가
 const setData = async (data: Props) => {
   const result = await axios.post("http://localhost:8080/data", data, {
@@ -31,4 +37,4 @@ const editData = async (data: Props) => {
   });
   if (result.status === 201) return "success";
 };
-export { getData, setData, editData };
+export { getData, getInfinitData, setData, editData };
