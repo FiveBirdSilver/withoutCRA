@@ -1,23 +1,57 @@
 import React, { useEffect, useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-import { getData, setData } from "./apis";
+import { editData, getData, setData } from "./apis";
 
 function App() {
-  const [title, setTitle] = useState("");
+  const queryClient = useQueryClient();
+
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState("Male");
 
-  const getPosts = async () => {
-    await getData().then((res) => console.log(res));
+  const request = {
+    name: name,
+    email: email,
+    gender: gender,
   };
+
+  const infos = useQuery(["info"], getData, {
+    // refetchInterval: 5000,
+    refetchOnWindowFocus: true,
+    refetchIntervalInBackground: true,
+  });
+
+  // 정보 추가
+  const addInfo = useMutation(setData, {
+    onError: (data, error, variables) => {
+      alert("잠시 후 다시 시도해주세요.");
+    },
+    onSuccess: (data, variables) => {
+      alert("정보가 추가되었습니다.");
+      queryClient.invalidateQueries("info");
+    },
+  });
+
+  // 정보 수정
+  const editInfo = useMutation(editData, {
+    onError: (data, error, variables) => {
+      alert("잠시 후 다시 시도해주세요.");
+    },
+    onSuccess: (data, variables) => {
+      alert("정보가 수정되었습니다.");
+      queryClient.invalidateQueries("info");
+    },
+  });
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    if (name === "title") setTitle(value);
+    if (name === "name") setName(value);
     else setEmail(value);
   };
 
@@ -29,17 +63,12 @@ function App() {
   };
 
   const handleOnCreate = async () => {
-    const sendData = {
-      title: title,
-      email: email,
-      gender: gender,
-    };
-    await setData(sendData);
+    addInfo.mutate(request);
   };
 
-  useEffect(() => {
-    getPosts();
-  }, []);
+  const handleOnEdit = () => {
+    editInfo.mutate(request);
+  };
 
   return (
     <div>
@@ -47,9 +76,9 @@ function App() {
         <TextField
           id="outlined-basic"
           label="이름"
-          name="title"
+          name="name"
           variant="outlined"
-          value={title}
+          value={name}
           onChange={handleOnChange}
         />
         <TextField
@@ -71,8 +100,20 @@ function App() {
         <Button variant="outlined" onClick={handleOnCreate}>
           추가
         </Button>
+        <Button variant="outlined" onClick={handleOnEdit}>
+          수정
+        </Button>
       </div>
-      <div></div>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        {infos?.data?.map((v: any) => (
+          <div style={{ display: "flex", gap: "20px", alignContent: "center", justifyContent: "center" }} key={v.id}>
+            <p>No. {v.id}</p>
+            <p>이름 : {v.name}</p>
+            <p>이메일 : {v.email}</p>
+            <p>성별: {v.gender === "Male" ? "남" : "여"}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
