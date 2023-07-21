@@ -40,7 +40,7 @@ function App() {
 
   // 정보 추가
   const addInfo = useMutation(setData, {
-    onError: (data, error, variables) => {
+    onError: (data: any, error, variables) => {
       alert("잠시 후 다시 시도해주세요.");
     },
     onSuccess: (data, variables) => {
