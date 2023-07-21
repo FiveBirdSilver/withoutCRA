@@ -13,8 +13,9 @@ const getData = async () => {
 };
 
 // 리스트 무한 스크롤
-const getInfinitData = async (num: number) => {
-  const result = await axios(`http://localhost:8080/data?_page=${num}&_limit=20`);
+const getInfinitData = async (page: number) => {
+  const limit = 20;
+  const result = await axios(`http://localhost:8080/data?_page=${page}&_limit=${limit}`);
   if (result.status === 200) return result.data;
 };
 
@@ -30,7 +31,7 @@ const setData = async (data: Props) => {
 
 // 리스트 수정
 const editData = async (data: Props) => {
-  const result = await axios.patch("http://localhost:8080/data/1", data, {
+  const result = await axios.patch("http://localhost:8080/data/3", data, {
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },

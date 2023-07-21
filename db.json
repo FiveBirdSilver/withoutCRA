@@ -8,15 +8,15 @@
     },
     {
       "id": 2,
-      "name": "Jordanna Hellwig",
-      "email": "jhellwig1@trellian.com",
-      "gender": "Genderqueer"
+      "name": "김민창",
+      "email": "mckim@naver.com",
+      "gender": "Male"
     },
     {
       "id": 3,
-      "name": "Cacilie Freiburger",
-      "email": "cfreiburger2@msn.com",
-      "gender": "Female"
+      "name": "김민재",
+      "email": "minjae@naver.com",
+      "gender": "Male"
     },
     {
       "id": 4,
@@ -689,6 +689,12 @@
       "email": "tpdms0401@gmail.com",
       "gender": "Female",
       "id": 115
+    },
+    {
+      "name": "민창킴",
+      "email": "kkim@naver.com",
+      "gender": "Male",
+      "id": 116
     }
   ]
 }

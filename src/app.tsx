@@ -7,7 +7,7 @@ import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-import { editData, getData, getInfinitData, setData } from "./apis";
+import { editData, getInfinitData, setData } from "./apis";
 
 function App() {
   const queryClient = useQueryClient();
@@ -23,16 +23,21 @@ function App() {
     gender: gender,
   };
 
-  // const infos = useQuery(["info"], getData, {
-  //   refetchOnWindowFocus: true,
-  //   refetchIntervalInBackground: true,
-  // });
-
-  const { data, fetchNextPage } = useInfiniteQuery(["info"], ({ pageParam = 0 }) => getInfinitData(pageParam), {
-    getNextPageParam: (lastPage) => {
-      return lastPage.page + 1;
+  const { data, fetchNextPage } = useInfiniteQuery(
+    ["info"],
+    async ({ pageParam = 1 }) => {
+      const res = await getInfinitData(pageParam);
+      return {
+        list: res,
+        page: pageParam,
+      };
     },
-  });
+    {
+      getNextPageParam: (lastPage) => {
+        return lastPage?.page + 1;
+      },
+    }
+  );
 
   useEffect(() => {
     if (inView) fetchNextPage();
@@ -40,7 +45,7 @@ function App() {
 
   // 정보 추가
   const addInfo = useMutation(setData, {
-    onError: (data: any, error, variables) => {
+    onError: (data, error, variables) => {
       alert("잠시 후 다시 시도해주세요.");
     },
     onSuccess: (data, variables) => {
@@ -116,14 +121,17 @@ function App() {
         </Button>
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
-        {data?.pages[0].map((v: any) => (
-          <div style={{ display: "flex", gap: "20px", alignContent: "center", justifyContent: "center" }} key={v.id}>
-            <p>No. {v.id}</p>
-            <p>이름 : {v.name}</p>
-            <p>이메일 : {v.email}</p>
-            <p>성별: {v.gender === "Male" ? "남" : "여"}</p>
-          </div>
-        ))}
+        {data?.pages
+          .map((page) => page.list)
+          .flat()
+          .map((v: any, index) => (
+            <div style={{ display: "flex", gap: "20px", alignContent: "center", justifyContent: "center" }} key={v.id}>
+              <p>No. {v.id}</p>
+              <p>이름 : {v.name}</p>
+              <p>이메일 : {v.email}</p>
+              <p>성별: {v.gender === "Male" ? "남" : "여"}</p>
+            </div>
+          ))}
       </div>
       <div ref={ref} />
     </div>
