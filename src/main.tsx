@@ -1,12 +1,19 @@
+// /** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient, useInfiniteQuery } from "react-query";
 import { useInView } from "react-intersection-observer";
 
-import FormControlLabel from "@mui/material/FormControlLabel";
+import { jsx, css } from "@emotion/react";
+
+import { styled } from "@mui/material/styles";
+import { Grid, Box } from "@material-ui/core";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
 
 import { editData, getInfinitData, setData } from "./apis";
 
@@ -18,19 +25,6 @@ function Main() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState("Male");
-
-  const [position, setPosition] = useState(0);
-
-  function onScroll() {
-    setPosition(window.scrollY);
-  }
-
-  useEffect(() => {
-    window.addEventListener("scroll", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, []);
 
   const request = {
     name: name,
@@ -94,16 +88,38 @@ function Main() {
     else return;
   };
 
-  const handleOnCreate = async () => {
+  const handleOnCreate = () => {
     addInfo.mutate(request);
+    setEmail("");
+    setName("");
   };
 
   const handleOnEdit = () => {
     editInfo.mutate(request);
   };
 
+  const StyledPaper = styled(Paper)(({ theme }) => ({
+    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)",
+    ":hover": {
+      boxShadow: "0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22)",
+    },
+    transition: "all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)",
+    padding: theme.spacing(2),
+    maxWidth: "1000px",
+    color: theme.palette.text.primary,
+    cursor: "pointer",
+  }));
+
+  const noMargin = css`
+    margin: 0;
+  `;
+
   return (
-    <div>
+    <div
+      css={css`
+        padding: 20px;
+      `}
+    >
       <div style={{ display: "flex", alignContent: "center", justifyContent: "center", gap: "20px" }}>
         <TextField
           id="outlined-basic"
@@ -136,29 +152,37 @@ function Main() {
           수정
         </Button>
       </div>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        {data?.pages
-          .map((page) => page.list)
-          .flat()
-          .map((v: any, index) => (
-            <div style={{ display: "flex", gap: "20px", alignContent: "center", justifyContent: "center" }} key={v.id}>
-              <p>No. {v.id}</p>
-              <p>이름 : {v.name}</p>
-              <p>이메일 : {v.email}</p>
-              <p>성별: {v.gender === "Male" ? "남" : "여"}</p>
-              <Button
+
+      {data?.pages
+        .map((page) => page.list)
+        .flat()
+        .map((v: any, index) => (
+          <>
+            <Box sx={{ flexGrow: 1, overflow: "hidden", px: 3 }}>
+              <StyledPaper
+                sx={{
+                  my: 1,
+                  mx: "auto",
+                  p: 2,
+                }}
                 onClick={() => {
                   navigate(`/detail/${v.id}`);
                 }}
               >
-                이동
-              </Button>
-              {/* <Link to={`/detail/${v.id}`}>
-                <Button>이동</Button>
-              </Link> */}
-            </div>
-          ))}
-      </div>
+                <Grid container wrap="nowrap" spacing={2}>
+                  <Grid item xs={12}>
+                    <Typography noWrap sx={{ display: "flex", gap: "20px", justifyContent: "center" }}>
+                      <p css={noMargin}>No.{v.id}</p>
+                      <p css={noMargin}>이름 : {v.name}</p>
+                      <p css={noMargin}>이메일 : {v.email}</p>
+                      <p css={noMargin}>성별: {v.gender === "Male" ? "남" : "여"}</p>
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </StyledPaper>
+            </Box>
+          </>
+        ))}
       <div ref={ref} />
     </div>
   );
