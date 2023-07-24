@@ -14,8 +14,8 @@
     },
     {
       "id": 3,
-      "name": "",
-      "email": "",
+      "name": "최호민",
+      "email": "hohomin@naver.com",
       "gender": "Male"
     },
     {
@@ -695,6 +695,18 @@
       "email": "kkim@naver.com",
       "gender": "Male",
       "id": 116
+    },
+    {
+      "name": "최호민",
+      "email": "hohomin@naver.com",
+      "gender": "Male",
+      "id": 117
+    },
+    {
+      "name": "테스트",
+      "email": "test@naver.com",
+      "gender": "Female",
+      "id": 118
     }
   ]
 }

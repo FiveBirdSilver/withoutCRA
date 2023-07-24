@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["es6", "dom"],
+    "lib": ["es2019", "es6", "dom"],
     "target": "esnext",
     "module": "esnext",
     "allowJs": true,
@@ -16,7 +16,8 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "jsxImportSource": "@emotion/react"
   },
   "include": ["src"],
   "exclude": ["node_modules"]
