@@ -1,7 +1,7 @@
 // /** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMutation, useQueryClient, useInfiniteQuery } from "react-query";
+import { useMutation, useQueryClient, useInfiniteQuery, useQuery } from "react-query";
 import { useInView } from "react-intersection-observer";
 
 import { jsx, css } from "@emotion/react";
@@ -15,7 +15,10 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 
-import { editData, getInfinitData, setData } from "./apis";
+import { editData, getData, getInfinitData, setData } from "./apis";
+import Insert from "./insert";
+import { useRecoilValue } from "recoil";
+import { keywordState } from "./store";
 
 function Main() {
   const navigate = useNavigate();
@@ -25,6 +28,8 @@ function Main() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState("Male");
+
+  const keyword = useRecoilValue(keywordState);
 
   const request = {
     name: name,
@@ -49,10 +54,17 @@ function Main() {
     }
   );
 
+  const testFecth = useQuery(["test"], () => getData(keyword));
+  console.log(testFecth);
   useEffect(() => {
     if (inView) fetchNextPage();
   }, [inView]);
 
+  useEffect(() => {
+    testFecth.refetch();
+  }, [keyword]);
+
+  console.log(testFecth.data);
   // 정보 추가
   const addInfo = useMutation(setData, {
     onError: (data, error, variables) => {
@@ -121,7 +133,7 @@ function Main() {
       `}
     >
       <div style={{ display: "flex", alignContent: "center", justifyContent: "center", gap: "20px" }}>
-        <TextField
+        {/* <TextField
           id="outlined-basic"
           label="이름"
           name="name"
@@ -150,10 +162,11 @@ function Main() {
         </Button>
         <Button variant="outlined" onClick={handleOnEdit}>
           수정
-        </Button>
+        </Button> */}
+        <Insert />
       </div>
 
-      {data?.pages
+      {/* {data?.pages
         .map((page) => page.list)
         .flat()
         .map((v: any, index) => (
@@ -183,7 +196,15 @@ function Main() {
             </Box>
           </>
         ))}
-      <div ref={ref} />
+      <div ref={ref} /> */}
+      {testFecth?.data?.map((v: any) => (
+        <>
+          <p css={noMargin}>No.{v.id}</p>
+          <p css={noMargin}>이름 : {v.name}</p>
+          <p css={noMargin}>이메일 : {v.email}</p>
+          <p css={noMargin}>성별: {v.gender === "Male" ? "남" : "여"}</p>
+        </>
+      ))}
     </div>
   );
 }

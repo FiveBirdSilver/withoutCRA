@@ -1,13 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Main from "./main";
 import Detail from "./Detail";
+import { RecoilRoot } from "recoil";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Main />} />
-      <Route path="/detail/:id" element={<Detail />} />
-    </Routes>
+    <RecoilRoot>
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/detail/:id" element={<Detail />} />
+      </Routes>
+    </RecoilRoot>
   );
 }
 

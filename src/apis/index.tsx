@@ -7,8 +7,8 @@ interface Props {
 }
 
 // 리스트 조회
-const getData = async () => {
-  const result = await axios("http://localhost:8080/data");
+const getData = async (req: string) => {
+  const result = await axios(`http://localhost:8080/data?name=${req}`);
   if (result.status === 200) return result.data;
 };
 
