@@ -1,10 +1,14 @@
 import { useSetRecoilState } from "recoil";
 import { keywordState } from "./store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Insert = () => {
   const [key, setkey] = useState("");
   const setKeyword = useSetRecoilState(keywordState);
+
+  useEffect(() => {
+    setKeyword("오세은");
+  }, []);
 
   return (
     <div>

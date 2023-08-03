@@ -37,6 +37,10 @@ function Main() {
     gender: gender,
   };
 
+  const testFecth = useQuery(["test"], async () => await getData(keyword));
+
+  console.log("keyword", keyword);
+  console.log("data", testFecth);
   // 데이터 조회
   const { data, fetchNextPage } = useInfiniteQuery(
     ["info"],
@@ -54,8 +58,6 @@ function Main() {
     }
   );
 
-  const testFecth = useQuery(["test"], () => getData(keyword));
-  console.log(testFecth);
   useEffect(() => {
     if (inView) fetchNextPage();
   }, [inView]);
@@ -64,7 +66,6 @@ function Main() {
     testFecth.refetch();
   }, [keyword]);
 
-  console.log(testFecth.data);
   // 정보 추가
   const addInfo = useMutation(setData, {
     onError: (data, error, variables) => {

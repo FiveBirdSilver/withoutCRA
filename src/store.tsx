@@ -7,6 +7,6 @@ const { persistAtom } = recoilPersist({ key: "test", storage: sessionStorage });
 // 유저 State
 const keywordState = atom({
   key: "keyword",
-  default: "오세은",
+  default: "",
 });
 export { keywordState };
