@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Main from "./main";
+import Main from "./Home";
 import Detail from "./Detail";
 import { RecoilRoot } from "recoil";
 

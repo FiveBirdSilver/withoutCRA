@@ -16,7 +16,7 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 
 import { editData, getData, getInfinitData, setData } from "./apis";
-import Insert from "./insert";
+import Insert from "./Add";
 import { useRecoilValue } from "recoil";
 import { keywordState } from "./store";
 
