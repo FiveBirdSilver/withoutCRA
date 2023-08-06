@@ -37,15 +37,13 @@ function Main() {
     gender: gender,
   };
 
-  const testFecth = useQuery(["test"], async () => await getData(keyword));
+  // const getdata = useQuery(["test", keyword], async () => await getData(keyword));
 
-  console.log("keyword", keyword);
-  console.log("data", testFecth);
   // 데이터 조회
-  const { data, fetchNextPage } = useInfiniteQuery(
-    ["info"],
+  const getDataTest = useInfiniteQuery(
+    ["info", keyword],
     async ({ pageParam = 1 }) => {
-      const res = await getInfinitData(pageParam);
+      const res = await getInfinitData(pageParam, keyword);
       return {
         list: res,
         page: pageParam,
@@ -59,12 +57,8 @@ function Main() {
   );
 
   useEffect(() => {
-    if (inView) fetchNextPage();
+    if (inView) getDataTest.fetchNextPage();
   }, [inView]);
-
-  useEffect(() => {
-    testFecth.refetch();
-  }, [keyword]);
 
   // 정보 추가
   const addInfo = useMutation(setData, {
@@ -134,7 +128,7 @@ function Main() {
       `}
     >
       <div style={{ display: "flex", alignContent: "center", justifyContent: "center", gap: "20px" }}>
-        {/* <TextField
+        <TextField
           id="outlined-basic"
           label="이름"
           name="name"
@@ -163,11 +157,11 @@ function Main() {
         </Button>
         <Button variant="outlined" onClick={handleOnEdit}>
           수정
-        </Button> */}
+        </Button>
         <Insert />
       </div>
 
-      {/* {data?.pages
+      {getDataTest.data?.pages
         .map((page) => page.list)
         .flat()
         .map((v: any, index) => (
@@ -197,15 +191,7 @@ function Main() {
             </Box>
           </>
         ))}
-      <div ref={ref} /> */}
-      {testFecth?.data?.map((v: any) => (
-        <>
-          <p css={noMargin}>No.{v.id}</p>
-          <p css={noMargin}>이름 : {v.name}</p>
-          <p css={noMargin}>이메일 : {v.email}</p>
-          <p css={noMargin}>성별: {v.gender === "Male" ? "남" : "여"}</p>
-        </>
-      ))}
+      <div ref={ref} />
     </div>
   );
 }
