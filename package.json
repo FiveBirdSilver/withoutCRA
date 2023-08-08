@@ -8,7 +8,8 @@
     "dev": "webpack-dev-server --config webpack.dev.js --open --hot",
     "build": "webpack --config webpack.prod.js",
     "start": "webpack --config webpack.dev.js",
-    "server": "json-server --watch db.json --port 8080"
+    "server": "json-server --watch db.json --port 8080",
+    "next": "next"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
     "@mui/icons-material": "^5.14.1",
     "@mui/material": "^5.14.1",
     "axios": "^1.4.0",
+    "next": "^13.4.13",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-intersection-observer": "^9.5.2",
